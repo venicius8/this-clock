@@ -1,5 +1,7 @@
 "use client";
 
+import { useRef } from "react";
+
 type Props = {
   guess: { hours: number; minutes: number };
   onGuessChange: (g: { hours: number; minutes: number }) => void;
@@ -13,6 +15,9 @@ export default function ClockControls({
   onGenerate,
   onSubmit,
 }: Props) {
+  const hoursRef = useRef<HTMLInputElement>(null);
+  const minutesRef = useRef<HTMLInputElement>(null);
+
   return (
     <div className="mt-10 flex gap-4 border flex-col">
       <button className="bg-primary-button cursor-pointer" onClick={onGenerate}>
@@ -20,6 +25,7 @@ export default function ClockControls({
       </button>
       <div className="flex justify-around gap-4">
         <input
+          ref={hoursRef}
           className="w-1/3 border"
           placeholder="Enter hours (1-12)"
           type="number"
@@ -28,8 +34,14 @@ export default function ClockControls({
           onChange={(e) =>
             onGuessChange({ ...guess, hours: e.target.valueAsNumber })
           }
+          onKeyDown={(e) => {
+            if (e.key === "Enter") {
+              minutesRef.current?.focus();
+            }
+          }}
         />
         <input
+          ref={minutesRef}
           className="w-1/3 border"
           placeholder="Enter minutes (0-59)"
           type="number"
@@ -38,6 +50,11 @@ export default function ClockControls({
           onChange={(e) =>
             onGuessChange({ ...guess, minutes: e.target.valueAsNumber })
           }
+          onKeyDown={(e) => {
+            if (e.key === "Enter") {
+              onSubmit();
+            }
+          }}
         />
         <button
           className="bg-primary-button cursor-pointer hover:bg-element-hover p-2 rounded-xl"
