@@ -18,9 +18,20 @@ export default function ClockControls({
   const hoursRef = useRef<HTMLInputElement>(null);
   const minutesRef = useRef<HTMLInputElement>(null);
 
+  const clearInputs = () => {
+    if (hoursRef.current) hoursRef.current.value = "";
+    if (minutesRef.current) minutesRef.current.value = "";
+  };
+
   return (
     <div className="mt-10 flex gap-4 border flex-col">
-      <button className="bg-primary-button cursor-pointer" onClick={onGenerate}>
+      <button
+        className="bg-primary-button cursor-pointer"
+        onClick={() => {
+          onGenerate();
+          clearInputs();
+        }}
+      >
         Generate Clock
       </button>
       <div className="flex justify-around gap-4">
@@ -58,7 +69,10 @@ export default function ClockControls({
         />
         <button
           className="bg-primary-button cursor-pointer hover:bg-element-hover p-2 rounded-xl"
-          onClick={onSubmit}
+          onClick={() => {
+            onSubmit();
+            hoursRef.current?.focus();
+          }}
         >
           Check Answer
         </button>
