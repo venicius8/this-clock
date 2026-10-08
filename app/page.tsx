@@ -1,69 +1,98 @@
-import Image from "next/image";
+"use client";
+
+import { useState } from "react";
 
 export default function Home() {
+  const [hours, setHours] = useState(0);
+  const [minutes, setMinutes] = useState(0);
+  const [guessHours, setGuessHours] = useState(0);
+  const [guessMinutes, setGuessMinutes] = useState(0);
+
+  function convertHoursToDegrees(hours: number) {
+    return hours * 30 + minutes * 0.5;
+  }
+
+  function convertMinutesToDegrees(minutes: number) {
+    return minutes * 6;
+  }
+
+  function clearInputs() {
+    setGuessHours(0);
+    setGuessMinutes(0);
+  }
+
+  function generateRandomTime() {
+    const randomHours = Math.floor(Math.random() * 12);
+    const randomMinutes = Math.floor(Math.random() * 60);
+
+    setHours(randomHours === 0 ? 12 : randomHours);
+    setMinutes(randomMinutes);
+
+    clearInputs();
+  }
+
+  function checkAnswer(inputHours: number, inputMinutes: number) {
+    if (inputHours === hours && inputMinutes === minutes) {
+      alert("Correct!");
+    } else {
+      alert(
+        `Incorrect! ${inputHours > hours ? "Too high for hours" : inputHours < hours ? "Too low for hours" : "Correct for hours"}. ${inputMinutes > minutes ? "Too high for minutes" : inputMinutes < minutes ? "Too low for minutes" : "Correct for minutes"}.`,
+      );
+    }
+  }
+
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert h-5 w-[100px]"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the{" "}
-            <code className="rounded bg-black/[.06] px-1.5 py-0.5 font-mono text-[0.9em] dark:bg-white/[.08]">
-              page.tsx
-            </code>{" "}
-            file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+    <main className="p-10">
+      <div className="h-120 aspect-square bg-primary relative rounded-full">
+        <div
+          style={{
+            transform: `translate(-50%, -100%) rotate(${convertMinutesToDegrees(minutes)}deg)`,
+          }}
+          className="h-50 w-1 rounded-2xl bg-foreground origin-bottom absolute left-1/2 top-1/2"
+        ></div>
+        <div
+          style={{
+            transform: `translate(-50%, -100%) rotate(${convertHoursToDegrees(hours)}deg)`,
+          }}
+          className="h-35 w-2 rounded-2xl bg-foreground origin-bottom absolute left-1/2 top-1/2"
+        ></div>
+      </div>
+      <div className="mt-10 flex gap-4 border flex-col">
+        <button
+          className="bg-primary-button cursor-pointer"
+          onClick={generateRandomTime}
+        >
+          Generate Clock
+        </button>
+        <div className="flex justify-around gap-4">
+          <input
+            className="w-1/3 border"
+            placeholder="Enter hours (1-12)"
+            type="number"
+            min="1"
+            max="12"
+            onChange={(e) => setGuessHours(e.target.valueAsNumber)}
+          />
+          <input
+            className="w-1/3 border"
+            placeholder="Enter minutes (0-59)"
+            type="number"
+            min="0"
+            max="59"
+            onChange={(e) => setGuessMinutes(e.target.valueAsNumber)}
+          />
+          <button
+            className="bg-primary-button cursor-pointer hover:bg-element-hover p-2 rounded-xl"
+            onClick={() => {
+              checkAnswer(guessHours, guessMinutes);
+              if (guessHours === hours && guessMinutes === minutes)
+                generateRandomTime();
+            }}
           >
-            <Image
-              className="dark:invert h-[14px] w-4"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={14}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+            Check Answer
+          </button>
         </div>
-      </main>
-    </div>
+      </div>
+    </main>
   );
 }
