@@ -1,16 +1,56 @@
 import { hoursToDegrees, minutesToDegrees } from "@/lib/clock";
 
-type Props = { hours: number; minutes: number };
+type ClockFaceStyle = "numbers" | "dashes" | "none";
 
-export default function ClockFace({ hours, minutes }: Props) {
+type Props = {
+  hours: number;
+  minutes: number;
+  faceStyle?: ClockFaceStyle;
+};
+
+export default function ClockFace({
+  hours,
+  minutes,
+  faceStyle = "numbers",
+}: Props) {
   return (
     <div className="h-120 aspect-square bg-primary relative rounded-full">
+      {faceStyle !== "none" &&
+        Array.from({ length: 12 }, (_, i) => {
+          const hour = i === 0 ? 12 : i;
+          const angle = i * 30;
+
+          return (
+            <div
+              key={hour}
+              className="absolute inset-0"
+              style={{
+                transform: `rotate(${angle}deg)`,
+              }}
+            >
+              {faceStyle === "numbers" ? (
+                <span
+                  className="absolute left-1/2 top-4 -translate-x-1/2"
+                  style={{
+                    transform: `rotate(-${angle}deg)`,
+                  }}
+                >
+                  {hour}
+                </span>
+              ) : (
+                <div className="absolute left-1/2 top-3 h-4 w-1 -translate-x-1/2 rounded-full bg-foreground" />
+              )}
+            </div>
+          );
+        })}
+
       <div
         style={{
           transform: `translate(-50%, -100%) rotate(${minutesToDegrees(minutes)}deg)`,
         }}
         className="h-50 w-1 rounded-2xl bg-foreground origin-bottom absolute left-1/2 top-1/2"
       />
+
       <div
         style={{
           transform: `translate(-50%, -100%) rotate(${hoursToDegrees(hours, minutes)}deg)`,
