@@ -48,14 +48,14 @@ export default function ClockFace({
         style={{
           transform: `translate(-50%, -100%) rotate(${minutesToDegrees(minutes)}deg)`,
         }}
-        className="h-50 w-1 rounded-2xl bg-foreground origin-bottom absolute left-1/2 top-1/2"
+        className="h-50 w-1 rounded-2xl bg-foreground origin-bottom absolute left-1/2 top-1/2 transition-transform duration-1000 ease-in-out"
       />
 
       <div
         style={{
           transform: `translate(-50%, -100%) rotate(${hoursToDegrees(hours, minutes)}deg)`,
         }}
-        className="h-35 w-2 rounded-2xl bg-foreground origin-bottom absolute left-1/2 top-1/2"
+        className="h-35 w-2 rounded-2xl bg-foreground origin-bottom absolute left-1/2 top-1/2 transition-transform duration-1000 ease-in-out"
       />
     </div>
   );
