@@ -24,7 +24,7 @@ export default function ClockControls({
   };
 
   return (
-    <div className="mt-10 flex gap-4 border flex-col">
+    <div className="flex gap-4 border p-2 flex-col">
       <button
         className="bg-primary-button cursor-pointer"
         onClick={() => {

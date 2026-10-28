@@ -14,7 +14,7 @@ export default function ClockFace({
   faceStyle = "numbers",
 }: Props) {
   return (
-    <div className="flex justify-center">
+    <div className="flex justify-center w-full">
       <div className="w-3/5 max-w-120 aspect-square bg-primary relative rounded-full border border-foreground">
         {faceStyle !== "none" &&
           Array.from({ length: 12 }, (_, i) => {
