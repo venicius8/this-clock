@@ -24,9 +24,9 @@ export default function ClockControls({
   };
 
   return (
-    <div className="flex gap-4 border p-2 flex-col">
+    <div className="flex gap-4 border border-primary-border p-2 flex-col rounded">
       <button
-        className="bg-primary-button cursor-pointer"
+        className="bg-primary-button cursor-pointer border border-primary-border hover:bg-element-hover p-2 rounded-xl duration-100"
         onClick={() => {
           onGenerate();
           clearInputs();
@@ -37,7 +37,7 @@ export default function ClockControls({
       <div className="flex justify-around gap-4">
         <input
           ref={hoursRef}
-          className="w-1/3 border"
+          className="w-1/3 border border-primary-border rounded-xl"
           placeholder="Enter hours (1-12)"
           type="number"
           min="1"
@@ -53,7 +53,7 @@ export default function ClockControls({
         />
         <input
           ref={minutesRef}
-          className="w-1/3 border"
+          className="w-1/3 border border-primary-border rounded-xl"
           placeholder="Enter minutes (0-59)"
           type="number"
           min="0"
@@ -68,7 +68,7 @@ export default function ClockControls({
           }}
         />
         <button
-          className="bg-primary-button cursor-pointer hover:bg-element-hover p-2 rounded-xl"
+          className="bg-primary-button cursor-pointer hover:bg-element-hover p-2 rounded-xl duration-100 border border-primary-border"
           onClick={() => {
             onSubmit();
             hoursRef.current?.focus();

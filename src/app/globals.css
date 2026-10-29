@@ -6,10 +6,12 @@
     --foreground: #111111;
 
     --primary: #92c8ff;
-    --secondary: #40ff73;
+    --secondary: #2acb55;
 
     --primary-button: #6b9ccd;
     --secondary-button: #40ff73;
+
+    --primary-border: #13375b;
 
     --element-hover: #3298ff;
   }
@@ -24,6 +26,8 @@
     --primary-button: #1e90ff;
     --secondary-button: #40ff73;
 
+    --primary-border: #aacaea;
+
     --element-hover: #1c86ee;
   }
 }
@@ -34,6 +38,7 @@
 
   --color-primary: var(--primary);
   --color-secondary: var(--secondary);
+  --color-primary-border: var(--primary-border);
 
   --color-primary-button: var(--primary-button);
   --color-secondary-button: var(--secondary-button);
